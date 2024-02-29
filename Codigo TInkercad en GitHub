@@ -1,0 +1,74 @@
+/*
+Programa para similar o funcionamento dunha ventana dun automovil, da maneira s
+simplificada. O pulsador acciona o MOTOR1 ao ser premido. Unha
+segunda pulsación fai que se accione o MOTOR2. Opercorrido do motor dura 7 segundos.
+
+Entradas: Pulsador (dixital)
+Saídas: Relé (2x dixital)
+
+Autor: Ángel Vidal Agrelo
+Data: Febreiro de 2024
+*/
+
+#define PULSADOR 7
+#define MOTOR1 11
+#define MOTOR2 12
+bool estado = 0;
+int contador = 0;
+
+void setup()
+{ 
+ pinMode(PULSADOR, INPUT);
+ pinMode(MOTOR1, OUTPUT);
+ pinMode(MOTOR2, OUTPUT);
+  
+  Serial.begin(9600);
+  int estado;
+  
+  Serial.println(estado);
+}
+
+
+void loop() {
+  // Lectura do pulsador
+  if (digitalRead(PULSADOR)) {
+   estado = !estado;
+    contador= 100;
+    while(digitalRead(PULSADOR)) {
+    delay(20);
+   }
+  }
+// Fin da lectura do pulsador
+    
+Serial.print("valor do contador: ");
+Serial.println(contador);
+
+// Accionamento dos motores
+if(contador > 0) {
+  if(estado == 1) {
+digitalWrite(MOTOR1, HIGH);
+digitalWrite(MOTOR2, LOW);
+  delay(70);
+  contador--;
+    }
+ 
+    else 
+    {                    
+        digitalWrite(MOTOR1, LOW);
+        digitalWrite(MOTOR2, HIGH);
+        delay(70);
+        contador--;
+      }
+    } 
+      else 
+      {        
+        // Se non esta o motor accionado, lee botón 10 veces
+       delay(100);      
+  }
+    // Fin accionamento dos motores
+    delay(7);
+if (contador ==0) {
+  digitalWrite(MOTOR1, LOW);
+  digitalWrite(MOTOR2, LOW)  ;  
+}
+ }
